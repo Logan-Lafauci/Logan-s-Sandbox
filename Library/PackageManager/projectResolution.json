@@ -8,6 +8,14 @@
     "G:\\PersonalProject\\Logan's Sandbox\\Packages\\packages-lock.json"
   ],
   "outputs": {
+    "com.unity.cinemachine@3.1.2": {
+      "name": "com.unity.cinemachine",
+      "resolvedPath": "G:\\PersonalProject\\Logan's Sandbox\\Library\\PackageCache\\com.unity.cinemachine",
+      "fingerprint": "b2e7bffab7726d3b59b19bdf5d6f8e78f70b6c3b",
+      "editorCompatibility": "2022.3.0a1",
+      "version": "3.1.2",
+      "source": "registry"
+    },
     "com.unity.collab-proxy@2.5.2": {
       "name": "com.unity.collab-proxy",
       "resolvedPath": "G:\\PersonalProject\\Logan's Sandbox\\Library\\PackageCache\\com.unity.collab-proxy",
@@ -22,6 +30,14 @@
       "fingerprint": "c770b6a36a30949b030c5ec02d835f771b975cbb",
       "version": "1.0.2",
       "source": "builtin"
+    },
+    "com.unity.inputsystem@1.11.2": {
+      "name": "com.unity.inputsystem",
+      "resolvedPath": "G:\\PersonalProject\\Logan's Sandbox\\Library\\PackageCache\\com.unity.inputsystem",
+      "fingerprint": "3c4a97c3950fef77960981e0fe90613de6e512ee",
+      "editorCompatibility": "2019.4.0a1",
+      "version": "1.11.2",
+      "source": "registry"
     },
     "com.unity.multiplayer.center@1.0.0": {
       "name": "com.unity.multiplayer.center",
@@ -307,6 +323,14 @@
       "version": "1.2.6",
       "source": "registry"
     },
+    "com.unity.splines@2.6.1": {
+      "name": "com.unity.splines",
+      "resolvedPath": "G:\\PersonalProject\\Logan's Sandbox\\Library\\PackageCache\\com.unity.splines",
+      "fingerprint": "930eaf55e68be9f5d58f63035b2a96d9c3c3e695",
+      "editorCompatibility": "2022.3.0a1",
+      "version": "2.6.1",
+      "source": "registry"
+    },
     "com.unity.settings-manager@2.0.1": {
       "name": "com.unity.settings-manager",
       "resolvedPath": "G:\\PersonalProject\\Logan's Sandbox\\Library\\PackageCache\\com.unity.settings-manager",
@@ -321,6 +345,14 @@
       "fingerprint": "60ef35ffd3cd5e2f5c8887a4a4ca6148854cd092",
       "editorCompatibility": "2019.4.0a1",
       "version": "2.0.5",
+      "source": "registry"
+    },
+    "com.unity.mathematics@1.3.2": {
+      "name": "com.unity.mathematics",
+      "resolvedPath": "G:\\PersonalProject\\Logan's Sandbox\\Library\\PackageCache\\com.unity.mathematics",
+      "fingerprint": "8017b507cc74bf0a1dd14b18aa860569f807314d",
+      "editorCompatibility": "2021.3.0a1",
+      "version": "1.3.2",
       "source": "registry"
     }
   }
