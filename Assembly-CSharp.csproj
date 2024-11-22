@@ -61,9 +61,15 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.0.27f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\DebugTools\ReadOnlyAttribute.cs" />
+    <Compile Include="Assets\Scripts\Portals\MainCamera.cs" />
+    <Compile Include="Assets\Scripts\Portals\Portal.cs" />
     <Compile Include="Assets\Scripts\PlayerMovement.cs" />
-    <Compile Include="Assets\Scripts\InputManager.cs" />
+    <Compile Include="Assets\Scripts\Inputs\InputManager.cs" />
     <Compile Include="Assets\Scripts\Inputs\Player Controls.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\Materials\Portal.shader" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
