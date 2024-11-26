@@ -32,8 +32,18 @@ public class Portal : MonoBehaviour
         }
     }
 
+    //This bool could be repurposed as a good tool in general for rendering things only found in the bounds of the main camera
+    //Look into it more in the future
+    static bool VisibleFromCamera(Renderer renderer, Camera camera)
+    {
+        Plane[] frustumPlanes = GeometryUtility.CalculateFrustumPlanes(camera);
+        return GeometryUtility.TestPlanesAABB(frustumPlanes, renderer.bounds);
+    }
+
     public void Render()
     {
+        if (!VisibleFromCamera(linkedPortal.screen, PlayerCam)) return;
+
         screen.enabled = false;
         CreateViewTexture();
         
