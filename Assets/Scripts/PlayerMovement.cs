@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using InspectorDebugger;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : PortalTraveller
 {
     [SerializeField] private Rigidbody rb;
     [SerializeField] private LayerMask ground;
@@ -39,7 +39,7 @@ public class PlayerMovement : MonoBehaviour
         
     }
 
-    //Used for physics based movement. Could create functions for jumping and walking to clean up the code
+    //Used for physics based movement. Could create functions for jumping and walking. CLEAN UP THE CODE
     private void FixedUpdate()
     {
         isGrounded = Physics.Raycast(bottomOfPlayer.position, Vector3.down, .05f, ground);
@@ -93,5 +93,17 @@ public class PlayerMovement : MonoBehaviour
             jumping = true;
             jumpDelay = .5f;
         }
+    }
+
+    //May make a class that hadnles teleportation for physic items to seperate this from movement.
+    public override void Teleport(Transform fromPortal, Transform toPortal, Vector3 pos, Quaternion rot)
+    {
+        //This gets the angle for the camera relative to what it should be when traveling through the portal.
+        var relativeCameraAngle = (toPortal.transform.localToWorldMatrix * fromPortal.transform.worldToLocalMatrix * Camera.main.transform.localToWorldMatrix).rotation;
+        MainCamera.ChangeCameraAgle(relativeCameraAngle);
+        rb.linearVelocity = toPortal.TransformVector(fromPortal.InverseTransformVector(rb.linearVelocity));
+        rb.angularVelocity = toPortal.TransformVector(fromPortal.InverseTransformVector(rb.angularVelocity));
+        base.Teleport(fromPortal, toPortal, pos, rot);
+        
     }
 }
