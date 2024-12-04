@@ -8,9 +8,13 @@ public class MainCamera : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     Portal[] portals;
 
+    //Different portal type that works similar
+    MultiLinkPortal[] multiLinkPortals;
+
     void Awake()
     {
         portals = FindObjectsByType<Portal>(FindObjectsSortMode.None);
+        multiLinkPortals = FindObjectsByType<MultiLinkPortal>(FindObjectsSortMode.None);
 
         if(cameraLookingAngle == null)
             cameraLookingAngle = FindFirstObjectByType<CinemachinePanTilt>();
@@ -30,6 +34,20 @@ public class MainCamera : MonoBehaviour
         for (int i = 0; i < portals.Length; i++)
         {
             portals[i].PostPortalRender();
+        }
+
+        //for multi linked portals
+        for (int i = 0; i < multiLinkPortals.Length; i++)
+        {
+            multiLinkPortals[i].PrePortalRender();
+        }
+        for (int i = 0; i < multiLinkPortals.Length; i++)
+        {
+            multiLinkPortals[i].Render();
+        }
+        for (int i = 0; i < multiLinkPortals.Length; i++)
+        {
+            multiLinkPortals[i].PostPortalRender();
         }
 
     }
