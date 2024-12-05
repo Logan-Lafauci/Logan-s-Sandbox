@@ -1,11 +1,12 @@
 using System.Collections.Generic;
-using Unity.Cinemachine;
 using UnityEngine;
 
 public class Portal : MonoBehaviour
 {
     public Portal linkedPortal;
     public MeshRenderer screen;
+
+    public int recursionLimit = 8;
 
     public float nearClipOffset = 0.05f;
     public float nearClipLimit = 0.2f;
@@ -14,6 +15,7 @@ public class Portal : MonoBehaviour
     Camera portalCam;
     RenderTexture viewTexture;
     List<PortalTraveller> travellers;
+    MeshFilter screenMeshFilter;
 
     void Awake()
     { 
@@ -22,6 +24,8 @@ public class Portal : MonoBehaviour
         portalCam = GetComponentInChildren<Camera>();
         portalCam.enabled = false;
         travellers = new List<PortalTraveller>();
+        screenMeshFilter = screen.GetComponent<MeshFilter>();
+        screen.material.SetInt("displayMask", 1);
     }
 
     private void LateUpdate()
@@ -85,20 +89,45 @@ public class Portal : MonoBehaviour
 
     public void Render()
     {
-        if (!VisibleFromCamera(linkedPortal.screen, playerCam)) return;
+        if (linkedPortal == null || !VisibleFromCamera(linkedPortal.screen, playerCam)) return;
 
-        screen.enabled = false;
         CreateViewTexture();
 
-        //Make the portal cam position and rotation the same relative to this portal, as the player cam relative to linked portal
-        var m = transform.localToWorldMatrix * linkedPortal.transform.worldToLocalMatrix * playerCam.transform.localToWorldMatrix;
-        portalCam.transform.SetPositionAndRotation(m.GetColumn(3), m.rotation);
+        var localToWorldMatrix = playerCam.transform.localToWorldMatrix;
+        var matrices = new Matrix4x4[recursionLimit];
 
-        HandleClipping();
-        SetNearClipPlane();
-        portalCam.Render();
+        int startIndex = 0;
+        portalCam.projectionMatrix = playerCam.projectionMatrix;
+        for (int i = 0; i < recursionLimit; i++)
+        {
+            if(i > 0 && !CameraUtility.BoundsOverlap(screenMeshFilter, linkedPortal.screenMeshFilter, portalCam)) break;
 
-        screen.enabled = true;
+            //Make the portal cam position and rotation the same relative to this portal, as the player cam relative to linked portal for each recursive portal
+            localToWorldMatrix = transform.localToWorldMatrix * linkedPortal.transform.worldToLocalMatrix * localToWorldMatrix;
+            int renderOrderIndex = recursionLimit - i - 1;
+            matrices[renderOrderIndex] = localToWorldMatrix;
+
+            portalCam.transform.SetPositionAndRotation(matrices[renderOrderIndex].GetColumn(3), matrices[renderOrderIndex].rotation);
+            startIndex = renderOrderIndex;
+        }
+
+        screen.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly; 
+        linkedPortal.screen.material.SetInt("displayMask", 0);
+
+        for (int i = startIndex; i < recursionLimit; i++)
+        {
+            portalCam.transform.SetPositionAndRotation(matrices[i].GetColumn(3), matrices[i].rotation);
+            HandleClipping();
+            SetNearClipPlane();
+            portalCam.Render();
+
+            if (i == startIndex)
+            {
+                linkedPortal.screen.material.SetInt("displayMask", 1);
+            }
+        }
+
+        screen.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
     }
 
     //[Functions for rendering the portal and objects passed through the portal]
@@ -303,6 +332,8 @@ public class Portal : MonoBehaviour
 
     //This bool could be repurposed as a good tool in general for rendering things only found in the bounds of the main camera
     //Look into it more in the future
+
+    // http://wiki.unity3d.com/index.php/IsVisibleFrom
     static bool VisibleFromCamera(Renderer renderer, Camera camera)
     {
         Plane[] frustumPlanes = GeometryUtility.CalculateFrustumPlanes(camera);

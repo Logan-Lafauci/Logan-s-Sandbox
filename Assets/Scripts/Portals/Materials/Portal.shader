@@ -2,7 +2,7 @@ Shader "Custom/Portal"
 {
     Properties
     {
-        _MainTex ("Texture", 2D) = "white" {}
+        _InactiveColour ("Inactive Colour", Color) = (1, 1, 1, 1)
     }
     SubShader
     {
@@ -31,6 +31,8 @@ Shader "Custom/Portal"
             };
 
             sampler2D _MainTex;
+            float4 _InactiveColour;
+            int displayMask; //Set to 1 to display texture, otherwise will draw incative color 
 
             v2f vert (appdata v)
             {
@@ -43,7 +45,8 @@ Shader "Custom/Portal"
             fixed4 frag (v2f i) : SV_Target
             {
                 float2 screenSpaceUV = i.screenPos.xy / i.screenPos.w;
-                return tex2D(_MainTex, screenSpaceUV);
+                fixed4 portalCol = tex2D(_MainTex, screenSpaceUV);
+                return portalCol * displayMask + _InactiveColour * (1-displayMask);
             }
             ENDCG
         }
