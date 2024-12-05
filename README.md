@@ -9,6 +9,8 @@ This section is where I will talk in detail about the inspiration to make certai
 ## Portals 
 [Reference Video](https://www.youtube.com/watch?v=cWpFZbjtSQg&list=PLtHUgNJAbnQWarSv_sn362oljeHvpVRT7&index=28)
 
+**Found In Assets/Scripts/Portals**
+
 Portals were the biggest inspiration to help start this project. I played portal when I was a kid on the playstation 3 and it was the first mechanic to blow my mind.
 I had a feeling most of the work for this mechanic would come down to visuals which gave me a good excuse to work with shaders. 
 I found a video by **Sebastian Lague** that shows his implementation and I used that to learn how to create the mechanic. 
