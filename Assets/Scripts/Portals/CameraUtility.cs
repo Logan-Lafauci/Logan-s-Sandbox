@@ -14,13 +14,6 @@ public static class CameraUtility
         new Vector3 (1, -1, 1),
     };
 
-    // http://wiki.unity3d.com/index.php/IsVisibleFrom
-    public static bool VisibleFromCamera(Renderer renderer, Camera camera)
-    {
-        Plane[] frustumPlanes = GeometryUtility.CalculateFrustumPlanes(camera);
-        return GeometryUtility.TestPlanesAABB(frustumPlanes, renderer.bounds);
-    }
-
     public static bool BoundsOverlap(MeshFilter nearObject, MeshFilter farObject, Camera camera)
     {
 
